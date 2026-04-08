@@ -1,0 +1,42 @@
+services:
+  app:
+    build: .
+    ports:
+      - 6565:6565
+      - 8080:8080
+      - 8000:8000
+    environment:
+      - AB_BASE_URL=${AB_BASE_URL}
+      - AB_CLIENT_ID=${AB_CLIENT_ID}
+      - AB_CLIENT_SECRET=${AB_CLIENT_SECRET}
+      - AB_NAMESPACE=${AB_NAMESPACE}
+      - PLUGIN_GRPC_SERVER_AUTH_ENABLED
+      - ASPNETCORE_ENVIRONMENT=Development
+      - OTEL_EXPORTER_ZIPKIN_ENDPOINT=http://host.docker.internal:9411/api/v2/spans # Zipkin
+      - DOCDB_HOST=mongodb
+      - DOCDB_USERNAME=${DOCDB_USERNAME}
+      - DOCDB_PASSWORD=${DOCDB_PASSWORD}
+      - DOCDB_DATABASE_NAME=${DOCDB_DATABASE_NAME}
+      - BASE_PATH
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    # logging:
+    #   driver: loki
+    #   options:
+    #     loki-url: http://localhost:3100/loki/api/v1/push
+    #     mode: non-blocking
+    #     max-buffer-size: 4m
+    #     loki-retries: "3"
+  mongodb:
+    image: mongo:8.0
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${DOCDB_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${DOCDB_PASSWORD}
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.runCommand({ ping: 1 })"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s

@@ -7,7 +7,7 @@
     },
     {
       "matchPackageNames": ["golang"],
-      "allowedVersions": "<=1.24"
+      "allowedVersions": "<=1.25"
     },
     {
       "matchPackageNames": ["mcr.microsoft.com/dotnet/aspnet", "mcr.microsoft.com/dotnet/sdk"],

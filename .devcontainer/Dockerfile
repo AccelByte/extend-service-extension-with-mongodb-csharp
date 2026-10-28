@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 ARG PROTOC_VERSION=21.9
 ARG DOTNET_VERSION=8.0
-ARG GO_VERSION=1.24.10
+ARG GO_VERSION=1.25.6
 
 # Configure apt and install packages
 RUN apt-get update \
@@ -33,7 +33,7 @@ RUN apt-get update \
     && rm protoc.zip \
     && chmod +x /usr/local/bin/protoc \
     #
-    # Install Go 1.24
+    # Install Go 1.25
     && wget -O go.tar.gz https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz \
     && tar -C /usr/local -xzf go.tar.gz \
     && rm go.tar.gz \

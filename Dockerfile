@@ -11,7 +11,7 @@ FROM --platform=$BUILDPLATFORM ubuntu:22.04 AS proto-builder
 ENV DEBIAN_FRONTEND=noninteractive
 
 ARG PROTOC_VERSION=21.9
-ARG GO_VERSION=1.24.10
+ARG GO_VERSION=1.25.6
 
 # Configure apt and install packages
 RUN apt-get update \
@@ -42,7 +42,7 @@ RUN apt-get update \
     && rm protoc.zip \
     && chmod +x /usr/local/bin/protoc \
     #
-    # Install Go 1.24
+    # Install Go 1.25
     && wget -O go.tar.gz https://go.dev/dl/go${GO_VERSION}.linux-${GOARCH_SUFFIX}.tar.gz \
     && tar -C /usr/local -xzf go.tar.gz \
     && rm go.tar.gz \
@@ -78,7 +78,7 @@ RUN chmod +x proto.sh && \
 # ----------------------------------------
 # Stage 2: gRPC Gateway Builder
 # ----------------------------------------
-FROM --platform=$BUILDPLATFORM golang:1.24 AS grpc-gateway-builder
+FROM --platform=$BUILDPLATFORM golang:1.25 AS grpc-gateway-builder
 
 ARG TARGETOS
 ARG TARGETARCH
